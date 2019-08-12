@@ -92,4 +92,115 @@ SELECT name
 FROM accounts
 WHERE name LIKE '%s';
 
--- 
+-- IN operator
+/* Use the accounts table to find the account name, primary_poc, and sales_rep_id 
+for Walmart, Target, and Nordstrom*/
+
+SELECT name, primary_poc, sales_rep_id
+FROM accounts
+WHERE name IN ('Walmart', 'Target', 'Nordstrom');
+
+-- IN operator
+/* Use the web_events table to find all information regarding individuals who were 
+contacted via the channel of organic or adwords */
+
+SELECT *
+FROM web_events
+WHERE channel IN ('organic', 'adwords');
+
+-- NOT operator
+/* Use the accounts table to find the account name, primary poc, and sales rep id 
+for all stores except Walmart, Target, and Nordstrom.*/
+
+SELECT name, primary_poc, sales_rep_id
+FROM accounts
+WHERE name NOT IN ('Walmart', 'Target', 'Nordstrom');
+
+-- NOT operator
+/* Use the web_events table to find all information regarding individuals who were 
+contacted via any method except using organic or adwords methods.*/
+
+SELECT *
+FROM web_events
+WHERE channel NOT IN ('organic', 'adwords');
+
+-- NOT operator
+/* Use the accounts table to find:
+All the companies whose names do not start with 'C'.
+All companies whose names do not contain the string 'one' somewhere in the name.
+All companies whose names do not end with 's' */
+
+SELECT name
+FROM accounts
+WHERE name NOT LIKE 'C%';
+
+SELECT name
+FROM accounts
+WHERE name NOT LIKE '%one%';
+
+SELECT name
+FROM accounts
+WHERE name NOT LIKE '%s';
+
+-- AND and BETWEEN operators
+/* Write a query that returns all the orders where the standard_qty is over 1000, 
+the poster_qty is 0, and the gloss_qty is 0 */
+
+SELECT *
+FROM orders
+WHERE standard_qty > 1000 AND poster_qty = 0 AND gloss_qty = 0;
+
+-- AND and BETWEEN operators
+/* Using the accounts table find all the companies whose names do not start with 'C' 
+and end with 's' */
+
+SELECT name
+FROM accounts
+WHERE name NOT LIKE 'C%' AND name LIKE '%s';
+
+-- AND and BETWEEN operators
+/* Use the web_events table to find all information regarding individuals who were 
+contacted via organic or adwords and started their account at any point in 2016 
+sorted from newest to oldest */
+
+SELECT *
+FROM web_events
+WHERE channel IN ('organic', 'adwords') AND occurred_at BETWEEN '2016-01-01' AND '2017-01-01'
+ORDER BY occurred_at DESC;
+
+-- OR operator
+/* Find list of orders ids where either gloss_qty or poster_qty is greater than 4000. 
+Only include the id field in the resulting table */
+
+SELECT id
+FROM orders
+WHERE gloss_qty > 4000 OR poster_qty > 4000;
+
+-- OR operator
+/* Write a query that returns a list of orders where the standard_qty is zero and either 
+the gloss_qty or poster_qty is over 1000 */
+
+SELECT *
+FROM orders
+WHERE standard_qty = 0 AND (gloss_qty > 1000 OR poster_qty > 1000);
+
+-- OR operator
+/* Find all the company names that start with a 'C' or 'W', and the primary contact contains 
+'ana' or 'Ana', but it doesn't contain 'eana' */
+
+SELECT *
+FROM accounts
+WHERE (name LIKE 'C%' OR name LIKE 'W%') 
+              AND ((primary_poc LIKE '%ana%' OR primary_poc LIKE '%Ana%') 
+              AND primary_poc NOT LIKE '%eana%');
+
+-- Sample Query
+/* you can retrieve different columns than those being used in the ORDER BY and WHERE statements.
+Assuming all of these column names existed in this way (col1, col2, col3, col4, col5) within a 
+table called table1, this query would run just fine */
+
+SELECT col1, col2
+FROM table1
+WHERE col3  > 5 AND col4 LIKE '%os%'
+ORDER BY col5
+LIMIT 10;
