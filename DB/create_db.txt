@@ -1,0 +1,4 @@
+Create a  database: 
+    CREATE DATABASE parch_and_posey;
+Restore into the database: 
+    pg_restore -d parch_and_posey /path/to/parch_and_posey_db
