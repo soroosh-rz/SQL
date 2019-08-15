@@ -1,2 +1,2 @@
 # SQL
-SQL Fundamentals
+SQL for Data Analysis
