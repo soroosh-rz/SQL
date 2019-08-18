@@ -67,7 +67,7 @@ FROM sales_reps;
 The email address should be the first name of the primary_poc . last name primary_poc @ 
 company name .com */
 WITH t1 AS (
-  SELECT LEFT(primary_poc,     STRPOS(primary_poc, ' ') -1 ) first_name,  
+  SELECT LEFT(primary_poc, STRPOS(primary_poc, ' ') -1 ) first_name,  
          RIGHT(primary_poc, LENGTH(primary_poc) - STRPOS(primary_poc, ' ')) last_name, 
          name
   FROM accounts)
@@ -81,7 +81,9 @@ will work by removing all of the spaces in the account name, but otherwise your 
 be just as in question 1. Some helpful documentation is here.
 */
 WITH t1 AS (
- SELECT LEFT(primary_poc,     STRPOS(primary_poc, ' ') -1 ) first_name,  RIGHT(primary_poc, LENGTH(primary_poc) - STRPOS(primary_poc, ' ')) last_name, name
+ SELECT LEFT(primary_poc, STRPOS(primary_poc, ' ') -1 ) first_name,  
+        RIGHT(primary_poc, LENGTH(primary_poc) - STRPOS(primary_poc, ' ')) last_name, 
+        name
  FROM accounts)
 SELECT first_name, last_name, CONCAT(first_name, '.', last_name, '@', REPLACE(name, ' ', ''), '.com')
 FROM  t1;
