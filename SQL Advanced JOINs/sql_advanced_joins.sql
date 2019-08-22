@@ -64,3 +64,73 @@ SELECT we1.id AS we_id,
   AND we1.occurred_at <= we2.occurred_at + INTERVAL '1 day'
 ORDER BY we1.account_id, we2.occurred_at
 
+-- UNION
+-- UNION operator is used to combine/append the result-set of two or more SELECT statements
+-- Both tables must have the same number of columns
+-- Those columns must have the same data types in the same order as the first table
+-- The UNION operator selects only distinct values by default
+
+/*
+Write a query that uses UNION ALL on two instances (and selecting all columns) of the 
+accounts table.
+*/
+SELECT *
+    FROM accounts
+
+UNION ALL
+
+SELECT *
+  FROM accounts
+
+/*
+Add a WHERE clause to each of the tables that you unioned in the 
+query above, filtering the first table where name equals Walmart 
+and filtering the second table where name equals Disney.
+*/
+SELECT *
+    FROM accounts
+    WHERE name = 'Walmart'
+
+UNION ALL
+
+SELECT *
+  FROM accounts
+  WHERE name = 'Disney'
+
+-- Alternatively to UNION
+SELECT * FROM accounts WHERE name = 'Walmart' OR name = 'Disney' 
+
+/*
+Perform the union in your first query (under the Appending Data via 
+UNION header) in a common table expression and name it double_accounts. 
+Then do a COUNT the number of times a name appears in the 
+double_accounts table. If you do this correctly, your query results 
+should have a count of 2 for each name.
+*/
+
+WITH double_accounts AS (
+    SELECT *
+      FROM accounts
+
+    UNION ALL
+
+    SELECT *
+      FROM accounts
+)
+
+SELECT name,
+       COUNT(*) AS name_count
+ FROM double_accounts 
+GROUP BY 1
+ORDER BY 2 DESC
+
+/*
+If you have time series data, limiting to a small time window can make your queries run 
+more quickly.
+
+Testing your queries on a subset of data, finalizing your query, then removing the subset 
+limitation is a sound strategy.
+
+When working with subqueries, limiting the amount of data you’re working with in the place 
+where it will be executed first will have the maximum impact on query run time.
+*/
